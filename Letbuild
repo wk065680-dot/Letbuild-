@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeFlying Sign In · Replica</title>
+  <!-- Google Font & Font Awesome for icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7fb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #1e293b;
+    }
+
+    /* language bar */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: white;
+      border-bottom: 1px solid #e9eef2;
+    }
+
+    .lang-bar span {
+      cursor: pointer;
+      color: #64748b;
+      transition: color 0.2s;
+    }
+
+    .lang-bar span.active {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .lang-bar span:hover {
+      color: #0f172a;
+    }
+
+    /* main card container */
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .signin-card {
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 440px;
+      padding: 2.5rem 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    /* google button */
+    .google-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: white;
+      border: 1px solid #d0d9e8;
+      border-radius: 60px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1e293b;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .google-btn i {
+      font-size: 1.25rem;
+      color: #4285F4;
+    }
+
+    .google-btn:hover {
+      background: #f8fafd;
+      border-color: #b0c0d4;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin: 1.5rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .divider::before {
+      margin-right: 1rem;
+    }
+
+    .divider::after {
+      margin-left: 1rem;
+    }
+
+    /* email / password */
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: #334155;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid #d0d9e8;
+      border-radius: 16px;
+      font-size: 1rem;
+      background: white;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+
+    /* checkbox row */
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin: 1.5rem 0 1rem;
+      font-size: 0.95rem;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      margin-top: 0.2rem;
+      accent-color: #3b82f6;
+    }
+
+    .checkbox-row label {
+      margin: 0;
+      font-weight: 400;
+      color: #475569;
+    }
+
+    .checkbox-row a {
+      color: #0f172a;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .checkbox-row a:hover {
+      text-decoration: underline;
+    }
+
+    /* validation message */
+    .terms-message {
+      color: #dc2626;
+      font-size: 0.85rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .terms-message.show {
+      display: block;
+    }
+
+    /* sign in button */
+    .signin-btn {
+      width: 100%;
+      background: #0f172a;
+      color: white;
+      border: none;
+      border-radius: 60px;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 1.5rem;
+    }
+
+    .signin-btn:hover {
+      background: #1e293b;
+    }
+
+    /* links row */
+    .links-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .links-row a {
+      color: #475569;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .links-row a:hover {
+      text-decoration: underline;
+      color: #0f172a;
+    }
+
+    .create-account {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    /* test mode footer */
+    .test-mode {
+      background: #eef2f6;
+      color: #334155;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.95rem;
+      border-top: 1px solid #dce3ec;
+      font-weight: 500;
+    }
+
+    /* responsive */
+    @media (max-width: 480px) {
+      .lang-bar { justify-content: center; padding: 1rem; }
+      .signin-card { padding: 2rem 1.5rem; }
+      .links-row { flex-direction: column; gap: 0.75rem; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- language selector (all options, English active) -->
+  <div class="lang-bar">
+    <span class="active">En</span>
+    <span>Cn</span>
+    <span>Pt</span>
+    <span>Id</span>
+    <span>De</span>
+    <span>Fr</span>
+    <span>Vi</span>
+    <span>Ko</span>
+    <span>Ja</span>
+    <span>Th</span>
+    <span>Hi</span>
+    <span>Ar</span>
+    <span>Tr</span>
+    <span>Es</span>
+  </div>
+
+  <div class="container">
+    <div class="signin-card">
+      <h1>Sign In</h1>
+
+      <!-- sign in with Google -->
+      <button class="google-btn" id="googleSignIn">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+
+      <div class="divider">or</div>
+
+      <!-- email field -->
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="your@email.com">
+      </div>
+
+      <!-- password field -->
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+
+      <!-- terms checkbox -->
+      <div class="checkbox-row">
+        <input type="checkbox" id="termsCheckbox">
+        <label for="termsCheckbox">
+          Agree to our <a href="#">Terms</a> and <a href="#">Privacy policy</a>
+        </label>
+      </div>
+
+      <!-- validation message -->
+      <div class="terms-message" id="termsMessage">Please check the box first</div>
+
+      <!-- sign in button -->
+      <button class="signin-btn" id="signinBtn">Sign in</button>
+
+      <!-- extra links -->
+      <div class="links-row">
+        <a href="#" class="create-account">Create your account</a>
+        <a href="#">Forget password?</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- test mode footer -->
+  <div class="test-mode">
+    Test Mode: To protect your data security, please log in first.
+  </div>
+
+  <script>
+    (function() {
+      // Language switcher (visual only – keeps English active)
+      const langSpans = document.querySelectorAll('.lang-bar span');
+      langSpans.forEach(span => {
+        span.addEventListener('click', function() {
+          langSpans.forEach(s => s.classList.remove('active'));
+          this.classList.add('active');
+          // In a full implementation you would change UI texts here.
+          // For this demo we simply stay with English.
+        });
+      });
+
+      // Google sign-in button (demo)
+      document.getElementById('googleSignIn').addEventListener('click', function() {
+        alert('Google Sign-In would open here. (Demo)');
+      });
+
+      // Sign-in button with checkbox validation
+      const signinBtn = document.getElementById('signinBtn');
+      const termsCheckbox = document.getElementById('termsCheckbox');
+      const termsMessage = document.getElementById('termsMessage');
+
+      signinBtn.addEventListener('click', function(e) {
+        e.preventDefault();  // prevent any form submission
+
+        if (!termsCheckbox.checked) {
+          termsMessage.classList.add('show');
+        } else {
+          termsMessage.classList.remove('show');
+          // Here you would normally proceed with authentication
+          alert('Sign-in attempt (demo) – credentials would be checked.');
+        }
+      });
+
+      // Optional: hide message when user checks the box
+      termsCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          termsMessage.classList.remove('show');
+        }
+      });
+
+      // "Create your account" and "Forget password?" links (just demo)
+      document.querySelectorAll('.links-row a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          alert('Link clicked – this would navigate in a real app.');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
